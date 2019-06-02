@@ -25,7 +25,7 @@ namespace ContextFree
             for (int i = 0; i < line.Length; i++)
             {
                 stringline = line[i];
-                listline[i] = stringline.ToString().Split(',');           //listline[4][0] = "->q0" //listline[4][2] = "$"
+                listline[i] = stringline.ToString().Split(',');           //example ===> listline[4][0] = "->q0" //listline[4][2] = "$"
             }
 
             Console.WriteLine(listline[4][2]);
