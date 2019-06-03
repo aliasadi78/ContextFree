@@ -11,10 +11,24 @@ namespace ContextFree
     {
         static void Main(string[] args)
         {
-            StremReader();
+            string[][] States = StremReader();
+//            States state = new States();
+            States[] states = new States[States.Length - 4];
+            for (int i = 4; i < States.Length; i++)
+            {
+                string Name = States[i][0];
+                string Alpahbet = States[i][1];
+                string Pop = States[i][2];
+                string Push = States[i][3];
+                string NextState = States[i][4];
+                States state = new States(Name,Alpahbet,Pop,Push,NextState,false);
+                states[i - 4] = state;
+            }
 
+            Console.WriteLine(states[1].Name);
+            
         }
-        static void StremReader()
+        static string[][] StremReader()
         {
             StreamReader input = new StreamReader("..\\..\\input.txt");
 
@@ -27,11 +41,9 @@ namespace ContextFree
                 stringline = line[i];
                 listline[i] = stringline.ToString().Split(',');           //example ===> listline[4][0] = "->q0" //listline[4][2] = "$"
             }
-
-            Console.WriteLine(listline[4][2]);
-
             input.Close();
 
+            return listline;
         }
     }
 }
