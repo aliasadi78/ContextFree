@@ -120,16 +120,11 @@ namespace ContextFree
             }
 
             Console.WriteLine();
-            for (int i = 0; i < pop.Count; i++)
-            {
-                
-            }
-
+            
             for (int i = 0; i < pop.Count; i++)
             {
                 for (int j = 0; j < nextstate.Count; j++)
                 {
-
                     Console.Write("(" + start + pop[i] + nextstate[j] + ")->" + copystates[i].Alpahbet +
                                       "(" + start + copystates[i].Push.ToString()[0] + nextstate[j] + ")(" +
                                       start + copystates[i].Push.ToString()[1] + nextstate[j] + ")");
@@ -142,7 +137,6 @@ namespace ContextFree
 
                 for (int j = 1; j < nextstate.Count; j++)
                 {
-
                     Console.Write("(" + start + pop[i] + nextstate[j] + ")->" + copystates[i].Alpahbet + 
                                       "(" + start + copystates[i].Push.ToString()[0] + nextstate[j - 1] + ")(" + 
                                       start + copystates[i].Push.ToString()[1] + nextstate[j] + ")");
@@ -151,15 +145,16 @@ namespace ContextFree
                                       nextstate[j] + ")");
                     j++;
                     break;
-                           ;
-//                        }
-                    
-//                    else
-//                    {
-//                        i--;
-//                        break;
-//                    }
                 }
+            }
+
+            for (int i = 0; i < states.Length; i++)
+            {
+                if (states[i].Push == "_")
+                {
+                    Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                }
+                
             }
         }
         static string[][] StremReader()
