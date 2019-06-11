@@ -14,8 +14,8 @@ namespace ContextFree
     {
         static void Main(string[] args)
         {
+//            TextWriter write = new StreamWriter("..\\..\\output.txt");
             string[][] States = StremReader();
-//            States state = new States();
             States[] states = new States[States.Length - 4];
             List<string> final = new List<string>();
             string start = "";
@@ -64,9 +64,6 @@ namespace ContextFree
                 states[i - 4] = state;
             }
 
-//            Console.WriteLine(stat.Count);
-//            Console.WriteLine(stat[0]);
-//            Console.WriteLine(stat[1]);
             List<States> copystates = new List<States>();
             for (int i = 0; i < states.Length; i++)
             {
@@ -75,28 +72,7 @@ namespace ContextFree
                     copystates.Add(states[i]);
                 }
             }
-            
-//            Console.WriteLine(states[1].Name);
-            for (int i = 0; i < states.Length; i++)
-            {
-                Console.Write(states[i].Name+"   ");
-                Console.Write(states[i].Pop+"   ");
-                Console.Write(states[i].Push+"   ");
-                Console.Write(states[i].NextState + "   ");
-                Console.WriteLine();
-                
-            }
 
-            Console.WriteLine("-----------------------------");
-            for (int i = 0; i < copystates.Count; i++)
-            {
-                Console.Write(copystates[i].Name+"   ");
-                Console.Write(copystates[i].Pop+"   ");
-                Console.Write(copystates[i].Push+"   ");
-                Console.Write(copystates[i].NextState + "   ");
-                Console.WriteLine();
-                
-            }
             List<string> pop = new List<string>();            
             List<string> push = new List<string>();            
             List<string> nextstate = new List<string>();            
@@ -123,68 +99,46 @@ namespace ContextFree
                 }
             }
 
-            for (int i = 0; i < pop.Count; i++)
-            {
-                Console.Write(pop[i] + "   ");                
-                                
-            }
-
-            Console.WriteLine();
-            for (int i = 0; i < push.Count; i++)
-            {
-                Console.Write(push[i] + "   ");
-            }
-
-            Console.WriteLine();
-            for (int i = 0; i < nextstate.Count; i++)
-            {
-                Console.Write(nextstate[i] + "   ");
-                
-            }
-
-            Console.WriteLine();
-            
-            for (int i = 0; i < pop.Count; i++)
-            {
-                for (int j = 0; j < nextstate.Count; j++)
-                {
-                    Console.Write("(" + start + pop[i] + nextstate[j] + ")->" + copystates[i].Alpahbet +
-                                      "(" + start + copystates[i].Push.ToString()[0] + nextstate[j] + ")(" +
-                                      start + copystates[i].Push.ToString()[1] + nextstate[j] + ")");
-                    Console.WriteLine("|" + copystates[i].Alpahbet + "(" + start + copystates[i].Push.ToString()[0] +
-                                      nextstate[j + 1] + ")(" + nextstate[j + 1] + copystates[i].Push.ToString()[1] +
-                                      nextstate[j] + ")");
-                    j++;
-                    break;
-                }
-
-                for (int j = 1; j < nextstate.Count; j++)
-                {
-                    Console.Write("(" + start + pop[i] + nextstate[j] + ")->" + copystates[i].Alpahbet + 
-                                      "(" + start + copystates[i].Push.ToString()[0] + nextstate[j - 1] + ")(" + 
-                                      start + copystates[i].Push.ToString()[1] + nextstate[j] + ")");
-                    Console.WriteLine("|" + copystates[i].Alpahbet + "(" + start + copystates[i].Push.ToString()[0] +
-                                      nextstate[j] + ")(" + nextstate[j] + copystates[i].Push.ToString()[1] +
-                                      nextstate[j] + ")");
-                    j++;
-                    break;
-                }
-            }
-
-            Console.WriteLine("-----*************************************************************--------------------------");
-            for (int j = 0; j < stat.Count; j++)
-            {
-                print(j,nextstate,start,pop,copystates,stat);
-            }
-            
-            for (int i = 0; i < states.Length; i++)
-            {
-                if (states[i].Push == "_")
-                {
-                    Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
-                }
-                
-            }
+//            for (int i = 0; i < pop.Count; i++)
+//            {
+//                for (int j = 0; j < nextstate.Count; j++)
+//                {
+//                    int w = j;
+//                    Console.Write("(" + start + pop[i] + nextstate[w] + ")->");
+//                    write.Write("(" + start + pop[i] + nextstate[w] + ")->");
+//                    for (int k = 0; k < nextstate.Count; k++)
+//                    {
+//                        j = 0;
+//                        if (j + k < nextstate.Count)
+//                        {
+//                            Console.Write(copystates[i].Alpahbet +
+//                                      "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
+//                                      nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")" + "|");
+//                            write.Write(copystates[i].Alpahbet +
+//                                            "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
+//                                            nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")" + "|");
+//                        }
+//                        j = w;
+//                    }
+//                    Console.WriteLine();
+//                    write.WriteLine();
+//                }
+//            }
+            print1(nextstate, start, pop, copystates, stat,states);
+//            for (int j = 0; j < stat.Count; j++)
+//            {
+//                print1(j,nextstate,start,pop,copystates,stat);
+//            }
+//            for (int i = 0; i < states.Length; i++)
+//            {
+//                if (states[i].Push == "_")
+//                {
+//                    Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+//                    write.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+//                }
+//                
+//            }
+//            write.Close();
         }
 
         static void print(int J, List<string> nextstate, string start,List<string> pop, List<States> copystates,List<string> stat)
@@ -203,6 +157,45 @@ namespace ContextFree
                     break;
                 }
             }
+        }
+        static void print1( List<string> nextstate, string start,List<string> pop, List<States> copystates,List<string> stat,States[] states)
+        {
+            TextWriter write = new StreamWriter("..\\..\\output.txt");
+            for (int i = 0; i < pop.Count; i++)
+            {
+                for (int j = 0; j < nextstate.Count; j++)
+                {
+                    int w = j;
+                    Console.Write("(" + start + pop[i] + nextstate[w] + ")->");
+                    write.Write("(" + start + pop[i] + nextstate[w] + ")->");
+                    for (int k = 0; k < nextstate.Count; k++)
+                    {
+                        j = 0;
+                        if (j + k < nextstate.Count)
+                        {
+                            Console.Write(copystates[i].Alpahbet +
+                                          "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
+                                          nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")" + "|");
+                            write.Write(copystates[i].Alpahbet +
+                                        "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
+                                        nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")" + "|");
+                        }
+                        j = w;
+                    }
+                    Console.WriteLine();
+                    write.WriteLine();
+                }
+            }
+            for (int i = 0; i < states.Length; i++)
+            {
+                if (states[i].Push == "_")
+                {
+                    Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                    write.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                }
+
+            }
+            write.Close();
         }
 
         static string[][] StremReader()
