@@ -174,7 +174,7 @@ namespace ContextFree
             Console.WriteLine("-----*************************************************************--------------------------");
             for (int j = 0; j < stat.Count; j++)
             {
-                print(j,nextstate,start,pop,copystates);
+                print(j,nextstate,start,pop,copystates,stat);
             }
             
             for (int i = 0; i < states.Length; i++)
@@ -187,7 +187,7 @@ namespace ContextFree
             }
         }
 
-        static void print(int J, List<string> nextstate, string start,List<string> pop, List<States> copystates)
+        static void print(int J, List<string> nextstate, string start,List<string> pop, List<States> copystates,List<string> stat)
         {
             for (int i = 0; i < pop.Count; i++)
             {
@@ -197,7 +197,7 @@ namespace ContextFree
                                   "(" + start + copystates[i].Push.ToString()[0] + nextstate[j - J] + ")(" +
                                   start + copystates[i].Push.ToString()[1] + nextstate[j] + ")");
                     Console.WriteLine("|" + copystates[i].Alpahbet + "(" + start + copystates[i].Push.ToString()[0] +
-                                      nextstate[j -J + 1] + ")(" + nextstate[j -J + 1] + copystates[i].Push.ToString()[1] +
+                                      nextstate[stat.Count - 1] + ")(" + nextstate[stat.Count - 1] + copystates[i].Push.ToString()[1] +
                                       nextstate[j] + ")");
                     j++;
                     break;
