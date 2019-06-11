@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Remoting.Channels;
 
 namespace ContextFree
 {
@@ -18,6 +19,7 @@ namespace ContextFree
             States[] states = new States[States.Length - 4];
             List<string> final = new List<string>();
             string start = "";
+            List<string> stat = new List<string>();
             for (int i = 4; i < States.Length; i++)
             {
                 string Name = States[i][0];
@@ -25,7 +27,6 @@ namespace ContextFree
                 {
                     start = Name.Replace("->", "");
                 }
-
                 Name = States[i][0].Replace("->","");
                 string Alpahbet = States[i][1];
                 string Pop = States[i][2];
@@ -40,10 +41,32 @@ namespace ContextFree
                 {
                     FinalState = true;
                 }
+                if (stat.Count == 0)
+                {
+                    stat.Add(Name.Replace("->", ""));
+                }
+                else
+                {
+                    for (int j = 0; j < stat.Count; j++)
+                    {
+                        if (Name.Replace("->", "") != stat[j])
+                        {
+                            stat.Add(Name.Replace("->", ""));
+                        }
+                        if (NextState.Replace("*","") != stat[j])
+                        {
+                            stat.Add(NextState.Replace("*", ""));
+                            break;
+                        }
+                    }
+                }
                 States state = new States(Name,Alpahbet,Pop,Push,NextState,FinalState);
                 states[i - 4] = state;
             }
- 
+
+//            Console.WriteLine(stat.Count);
+//            Console.WriteLine(stat[0]);
+//            Console.WriteLine(stat[1]);
             List<States> copystates = new List<States>();
             for (int i = 0; i < states.Length; i++)
             {
@@ -148,6 +171,12 @@ namespace ContextFree
                 }
             }
 
+            Console.WriteLine("-----*************************************************************--------------------------");
+            for (int j = 0; j < stat.Count; j++)
+            {
+                print(j,nextstate,start,pop,copystates);
+            }
+            
             for (int i = 0; i < states.Length; i++)
             {
                 if (states[i].Push == "_")
@@ -157,6 +186,25 @@ namespace ContextFree
                 
             }
         }
+
+        static void print(int J, List<string> nextstate, string start,List<string> pop, List<States> copystates)
+        {
+            for (int i = 0; i < pop.Count; i++)
+            {
+                for (int j = J; j < nextstate.Count; j++)
+                {
+                    Console.Write("(" + start + pop[i] + nextstate[j] + ")->" + copystates[i].Alpahbet +
+                                  "(" + start + copystates[i].Push.ToString()[0] + nextstate[j - J] + ")(" +
+                                  start + copystates[i].Push.ToString()[1] + nextstate[j] + ")");
+                    Console.WriteLine("|" + copystates[i].Alpahbet + "(" + start + copystates[i].Push.ToString()[0] +
+                                      nextstate[j -J + 1] + ")(" + nextstate[j -J + 1] + copystates[i].Push.ToString()[1] +
+                                      nextstate[j] + ")");
+                    j++;
+                    break;
+                }
+            }
+        }
+
         static string[][] StremReader()
         {
             StreamReader input = new StreamReader("..\\..\\input.txt");
