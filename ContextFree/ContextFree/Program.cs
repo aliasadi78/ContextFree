@@ -115,12 +115,25 @@ namespace ContextFree
                         j = 0;
                         if (j + k < nextstate.Count)
                         {
-                            Console.Write(copystates[i].Alpahbet +
+                            if (!(j + k + 1 >= nextstate.Count))
+                            {
+                                Console.Write(copystates[i].Alpahbet +
                                           "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
                                           nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")" + "|");
-                            write.Write(copystates[i].Alpahbet +
+                                write.Write(copystates[i].Alpahbet +
                                         "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
                                         nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")" + "|");
+                            }
+                            else
+                            {
+                                Console.Write(copystates[i].Alpahbet +
+                                              "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
+                                              nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")");
+                                write.Write(copystates[i].Alpahbet +
+                                            "(" + start + copystates[i].Push.ToString()[0] + nextstate[j + k] + ")(" +
+                                            nextstate[j + k] + copystates[i].Push.ToString()[1] + nextstate[w] + ")");
+                            }
+                            
                         }
                         j = w;
                     }
