@@ -83,8 +83,6 @@ namespace ContextFree
         /// </summary>
         public static void print2()
         {
-//            StreamReader inpu = new StreamReader("..\\..\\output.txt");
-//            inpu.Close();
             TextWriter write = new StreamWriter("..\\..\\output2.txt");
             List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>>();
             qwe = NPDA.Convert();
@@ -94,10 +92,6 @@ namespace ContextFree
             List<CFG> C = new List<CFG>();
             C = CFG.convert();
             Console.Write("Input:");
-//            using (StreamWriter w = File.AppendText("output.txt"))
-//            {
-//                w.WriteLine("Input:");
-//            }
             write.Write("Input:");
             string input = Console.ReadLine();
             write.WriteLine(input);
