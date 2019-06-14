@@ -14,8 +14,8 @@ namespace ContextFree
     {
         public static void Main(string[] args)
         {
-            Print.print();
-            
+            Print.print1();
+            CFG.convert();
         }
        
     }

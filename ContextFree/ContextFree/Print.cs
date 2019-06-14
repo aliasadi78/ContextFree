@@ -10,13 +10,13 @@ namespace ContextFree
     /// </summary>
     public class Print
     {
-        public static void print()
+        public static void print1()
         {
             List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>> qwe = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>>();
             qwe = States.Convert();
-            printt(qwe[0].Item1, qwe[0].Item2, qwe[0].Item3, qwe[0].Item4, qwe[0].Item5, qwe[0].Item6);
+            printt1(qwe[0].Item1, qwe[0].Item2, qwe[0].Item3, qwe[0].Item4, qwe[0].Item5, qwe[0].Item6);
         }
-        public static void printt(List<string> nextstate, string start, List<string> pop, List<States> copystates, List<string> stat, States[] states)
+        public static void printt1(List<string> nextstate, string start, List<string> pop, List<States> copystates, List<string> stat, States[] states)
         {
             TextWriter write = new StreamWriter("..\\..\\output.txt");
             for (int i = 0; i < pop.Count; i++)
@@ -61,8 +61,17 @@ namespace ContextFree
             {
                 if (states[i].Push == "_")
                 {
-                    Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
-                    write.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                    if (i + 1 >= states.Length)
+                    {
+                        Console.Write("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                        write.Write("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                    }
+                    else
+                    {
+                        Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                        write.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                    }
+                    
                 }
 
             }

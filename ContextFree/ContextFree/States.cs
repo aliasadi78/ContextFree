@@ -31,10 +31,11 @@ namespace ContextFree
         /// <summary>
         /// Function for convert to suitable data structure
         /// </summary>
-        /// <returns>List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>(nextstate, start, pop, copystates, stat, states)</returns>
+        /// <returns>List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>
+        ///                     (nextstate,    start,      pop,      copystates,      stat,     states)</returns>
         public static List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>> Convert()
         {
-            string[][] States = Stream.StreamReader();
+            string[][] States = Stream.StreamReader1();
             States[] states = new States[States.Length - 4];
             List<string> final = new List<string>();
             string start = "";
@@ -122,6 +123,11 @@ namespace ContextFree
             List <Tuple< List<string>,string, List< string > ,List < States > ,List<string> ,States[]>> convert = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>,States[]>>();
             convert.Add(new Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>(nextstate, start, pop, copystates, stat, states));
             return convert;
+        }
+
+        public static int statsize(string[] stat)
+        {
+            return stat.Length;
         }
     }
 }

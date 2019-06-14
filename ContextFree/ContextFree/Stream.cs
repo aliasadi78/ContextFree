@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 namespace ContextFree
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace ContextFree
     /// </summary>
     public class Stream
     {
-        public static string[][] StreamReader()
+        public static string[][] StreamReader1()
         {
             StreamReader input = new StreamReader("..\\..\\input.txt");
 
@@ -20,8 +22,20 @@ namespace ContextFree
                 listline[i] = stringline.ToString().Split(',');           //example: listline[4][0] = "->q0" //listline[4][2] = "$"
             }
             input.Close();
-
+            
             return listline;
+        }
+
+        public static List<string[]> StreamReadre2()
+        {
+            string[][] s = StreamReader1();
+            string[] numstate = new []{s[0][0].ToString()};
+            StreamReader input = new StreamReader("..\\..\\output.txt");
+            string lines = input.ReadToEnd();
+            List<string[]> line = new List<string[]>();
+            line.Add(lines.Split('\n'));
+            line.Add(numstate);
+            return line;
         }
     }
 }
