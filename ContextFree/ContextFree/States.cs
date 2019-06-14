@@ -33,12 +33,13 @@ namespace ContextFree
         /// </summary>
         /// <returns>List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>
         ///                     (nextstate,    start,      pop,      copystates,      stat,     states)</returns>
-        public static List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>> Convert()
+        public static List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>> Convert()
         {
             string[][] States = Stream.StreamReader1();
             States[] states = new States[States.Length - 4];
             List<string> final = new List<string>();
             string start = "";
+            string fina = "";
             List<string> stat = new List<string>();
             for (int i = 4; i < States.Length; i++)
             {
@@ -52,12 +53,13 @@ namespace ContextFree
                 string Alpahbet = States[i][1];
                 string Pop = States[i][2];
                 string Push = States[i][3];
-                string NextState = States[i][4].Replace("\r", "").Replace("*", "");
-                bool FinalState = false;
+                string NextState = States[i][4].Replace("\r", "");
                 if (NextState[0].ToString() == "*")
                 {
-                    final.Add(NextState.Replace("*", ""));
+                    fina = NextState.Replace("*", "");
                 }
+                NextState = States[i][4].Replace("\r", "").Replace("*", "");
+                bool FinalState = false;
                 if (Name[0].ToString() == "*")
                 {
                     FinalState = true;
@@ -120,14 +122,9 @@ namespace ContextFree
                     }
                 }
             }
-            List <Tuple< List<string>,string, List< string > ,List < States > ,List<string> ,States[]>> convert = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>,States[]>>();
-            convert.Add(new Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>(nextstate, start, pop, copystates, stat, states));
+            List <Tuple< List<string>,string, List< string > ,List < States > ,List<string> ,States[], string>> convert = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>,States[], string>>();
+            convert.Add(new Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>(nextstate, start, pop, copystates, stat, states,fina));
             return convert;
-        }
-
-        public static int statsize(string[] stat)
-        {
-            return stat.Length;
         }
     }
 }
