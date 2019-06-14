@@ -30,7 +30,7 @@ namespace ContextFree
         {
             string[][] s = StreamReader1();
             string[] numstate = new []{s[0][0].ToString()};
-            StreamReader input = new StreamReader("..\\..\\output.txt");
+            StreamReader input = new StreamReader("..\\..\\output1.txt");
             string lines = input.ReadToEnd();
             List<string[]> line = new List<string[]>();
             line.Add(lines.Split('\n'));

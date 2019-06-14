@@ -11,17 +11,17 @@ namespace ContextFree
     {
         public static void print1()
         {
-            List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>>();
-            qwe = States.Convert();
+            List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>>();
+            qwe = NPDA.Convert();
             printt1(qwe[0].Item1, qwe[0].Item2, qwe[0].Item3, qwe[0].Item4, qwe[0].Item5, qwe[0].Item6);
         }
         /// <summary>
         /// Convert NPDA to CFG
         /// Print & Write in File => output.txt
         /// </summary>
-        public static void printt1(List<string> nextstate, string start, List<string> pop, List<States> copystates, List<string> stat, States[] states)
+        public static void printt1(List<string> nextstate, string start, List<string> pop, List<NPDA> copystates, List<string> stat, NPDA[] npda)
         {
-            TextWriter write = new StreamWriter("..\\..\\output.txt");
+            TextWriter write = new StreamWriter("..\\..\\output1.txt");
             for (int i = 0; i < pop.Count; i++)
             {
                 for (int j = 0; j < nextstate.Count; j++)
@@ -60,19 +60,19 @@ namespace ContextFree
                     write.WriteLine();
                 }
             }
-            for (int i = 0; i < states.Length; i++)
+            for (int i = 0; i < npda.Length; i++)
             {
-                if (states[i].Push == "_")
+                if (npda[i].Push == "_")
                 {
-                    if (i + 1 >= states.Length)
+                    if (i + 1 >= npda.Length)
                     {
-                        Console.Write("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
-                        write.Write("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                        Console.Write("(" + npda[i].Name + npda[i].Pop + npda[i].NextState + ")->" + npda[i].Alpahbet);
+                        write.Write("(" + npda[i].Name + npda[i].Pop + npda[i].NextState + ")->" + npda[i].Alpahbet);
                     }
                     else
                     {
-                        Console.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
-                        write.WriteLine("(" + states[i].Name + states[i].Pop + states[i].NextState + ")->" + states[i].Alpahbet);
+                        Console.WriteLine("(" + npda[i].Name + npda[i].Pop + npda[i].NextState + ")->" + npda[i].Alpahbet);
+                        write.WriteLine("(" + npda[i].Name + npda[i].Pop + npda[i].NextState + ")->" + npda[i].Alpahbet);
                     } 
                 }
             }
@@ -83,15 +83,24 @@ namespace ContextFree
         /// </summary>
         public static void print2()
         {
-            List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>>();
-            qwe = States.Convert();
-            string start = qwe[0].Item2;
+//            StreamReader inpu = new StreamReader("..\\..\\output.txt");
+//            inpu.Close();
+            TextWriter write = new StreamWriter("..\\..\\output2.txt");
+            List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>>();
+            qwe = NPDA.Convert();
+            string Start = qwe[0].Item2;
             string final = qwe[0].Item7;
-            string StartVariable = "(" + start + "$" + final + ")";
+            string StartVariable = "(" + Start + "$" + final + ")";
             List<CFG> C = new List<CFG>();
             C = CFG.convert();
             Console.Write("Input:");
+//            using (StreamWriter w = File.AppendText("output.txt"))
+//            {
+//                w.WriteLine("Input:");
+//            }
+            write.Write("Input:");
             string input = Console.ReadLine();
+            write.WriteLine(input);
             string outp = StartVariable;
             string inp = "";
             int E = 0;
@@ -129,15 +138,20 @@ namespace ContextFree
             }
 
             Console.WriteLine("Output:");
+            write.WriteLine("Output:");
             if (T)
             {
                 Console.WriteLine("True");
+                write.WriteLine("True");
                 Console.WriteLine(outp);
+                write.WriteLine(outp);
             }
             else
             {
                 Console.WriteLine("False");
+                write.WriteLine("False");
             }
+            write.Close();
         }
     }
 }

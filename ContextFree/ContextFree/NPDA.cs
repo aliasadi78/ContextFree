@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 namespace ContextFree
 {
     /// <summary>
-    /// Class States
+    /// Class NPDA
     /// </summary>
-    public class States
+    public class NPDA
     {
-        public States(string name,string alphabet, string pop, string push, string nextstate,bool finalstate)
+        public NPDA(string name,string alphabet, string pop, string push, string nextstate,bool finalstate)
         {
             this.Name = name;
             this.Alpahbet = alphabet;
@@ -31,12 +31,12 @@ namespace ContextFree
         /// <summary>
         /// Function for convert to suitable data structure
         /// </summary>
-        /// <returns>List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[]>
+        /// <returns>List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[]>
         ///                     (nextstate,    start,      pop,      copystates,      stat,     states)</returns>
-        public static List<Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>> Convert()
+        public static List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>> Convert()
         {
             string[][] States = Stream.StreamReader1();
-            States[] states = new States[States.Length - 4];
+            NPDA[] npda = new NPDA[States.Length - 4];
             List<string> final = new List<string>();
             string start = "";
             string fina = "";
@@ -83,47 +83,47 @@ namespace ContextFree
                         }
                     }
                 }
-                States state = new States(Name, Alpahbet, Pop, Push, NextState, FinalState);
-                states[i - 4] = state;
+                NPDA Npda = new NPDA(Name, Alpahbet, Pop, Push, NextState, FinalState);
+                npda[i - 4] = Npda;
             }
 
-            List<States> copystates = new List<States>();
-            for (int i = 0; i < states.Length; i++)
+            List<NPDA> copystates = new List<NPDA>();
+            for (int i = 0; i < npda.Length; i++)
             {
-                if (states[i].Push != "_")
+                if (npda[i].Push != "_")
                 {
-                    copystates.Add(states[i]);
+                    copystates.Add(npda[i]);
                 }
             }
 
             List<string> pop = new List<string>();
             List<string> push = new List<string>();
             List<string> nextstate = new List<string>();
-            for (int i = 0; i < states.Length; i++)
+            for (int i = 0; i < npda.Length; i++)
             {
-                if (states[i].Push != "_")
+                if (npda[i].Push != "_")
                 {
-                    pop.Add(states[i].Pop);
-                    push.Add(states[i].Push);
+                    pop.Add(npda[i].Pop);
+                    push.Add(npda[i].Push);
 
                 }
                 if (nextstate.Count == 0)
                 {
-                    nextstate.Add(states[i].NextState);
+                    nextstate.Add(npda[i].NextState);
                 }
                 else
                 {
                     for (int j = 0; j < nextstate.Count; j++)
                     {
-                        if (states[i].NextState != nextstate[j])
+                        if (npda[i].NextState != nextstate[j])
                         {
-                            nextstate.Add(states[i].NextState);
+                            nextstate.Add(npda[i].NextState);
                         }
                     }
                 }
             }
-            List <Tuple< List<string>,string, List< string > ,List < States > ,List<string> ,States[], string>> convert = new List<Tuple<List<string>, string, List<string>, List<States>, List<string>,States[], string>>();
-            convert.Add(new Tuple<List<string>, string, List<string>, List<States>, List<string>, States[], string>(nextstate, start, pop, copystates, stat, states,fina));
+            List <Tuple< List<string>,string, List< string > ,List < NPDA > ,List<string> ,NPDA[], string>> convert = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>,NPDA[], string>>();
+            convert.Add(new Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>(nextstate, start, pop, copystates, stat, npda,fina));
             return convert;
         }
     }
