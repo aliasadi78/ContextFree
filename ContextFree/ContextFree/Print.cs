@@ -136,9 +136,9 @@ namespace ContextFree
                                 }
                                 else
                                 {
-                                    if (alpha.Length%2 == 0)
+                                    if (k%2 == 0)
                                     {
-                                        w = i;
+//                                        w = i;
                                         outp += "=>" + alpha + C[i].Pro[j][0] + C[i].Pro[j][1];
                                         if (k + 1 >= input.Length)
                                         {
