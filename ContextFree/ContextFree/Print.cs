@@ -124,7 +124,6 @@ namespace ContextFree
                                 
                                 if (E==0)
                                 {
-                                    
                                     outp += "=>" + alpha + C[i].Pro[j][0] + C[i].Pro[j][1];
                                     w = i;
                                     if (k + 1 >= input.Length)
@@ -136,28 +135,27 @@ namespace ContextFree
                                 }
                                 else
                                 {
-                                    if (k%2 == 0)
+                                    if (alpha.Length%2 != 0)
                                     {
-//                                        w = i;
+                                        w = i;
                                         outp += "=>" + alpha + C[i].Pro[j][0] + C[i].Pro[j][1];
-                                        if (k + 1 >= input.Length)
-                                        {
-                                            outp += "=>" + alpha;
-                                            T = true;
-                                        }
                                     }
                                     else
                                     {
                                         for (int l = 0; l < single.Count; l++)
                                         {
-                                            if (C[w].Pro[j][0] == single[l].Name && input[k].ToString() == single[l].Alphabet)
+                                            if (C[w].Pro[j][0] == single[l].Name)
                                             {
-                                                w = i;
-                                                outp += "=>" + alpha + C[i].Pro[j][1];
-                                                if (k + 1 >= input.Length)
-                                                {
-                                                    outp += "=>" + alpha;
-                                                    T = true;
+                                                if(input[k].ToString() == single[l].Alphabet)
+                                                {   
+//                                                    w = i;
+                                                    outp += "=>" + alpha + C[i].Pro[j][1];
+                                                    if (k + 1 >= input.Length)
+                                                    {
+                                                        outp += "=>" + alpha;
+                                                        T = true;
+                                                    }
+                                                    break;
                                                 }
                                             }
                                         }
