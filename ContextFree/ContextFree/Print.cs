@@ -11,7 +11,7 @@ namespace ContextFree
     {
         public static void print1()
         {
-            List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>>();
+            List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>>();
             qwe = NPDA.Convert();
             printt1(qwe[0].Item1, qwe[0].Item2, qwe[0].Item3, qwe[0].Item4, qwe[0].Item5, qwe[0].Item6);
         }
@@ -84,11 +84,12 @@ namespace ContextFree
         public static void print2()
         {
             TextWriter write = new StreamWriter("..\\..\\output2.txt");
-            List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string>>();
+            List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>>();
             qwe = NPDA.Convert();
             string Start = qwe[0].Item2;
-            string final = qwe[0].Item7;
-            string StartVariable = "(" + Start + "$" + final + ")";
+            string final = qwe[0].Item7[0];
+            string symbol = qwe[0].Item7[1].Replace("\r", "");
+            string StartVariable = "(" + Start + symbol + final + ")";
             List<CFG> C = new List<CFG>();
             C = CFG.convert();
             Console.Write("Input:");
