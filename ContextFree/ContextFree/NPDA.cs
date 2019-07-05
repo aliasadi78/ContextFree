@@ -67,12 +67,10 @@ namespace ContextFree
                     for (int j = 0; j < states.Count; j++)
                     {
                         if (Name.Replace("->", "") != states[j])
-                        {
-                            states.Add(Name.Replace("->", ""));
+                        {states.Add(Name.Replace("->", ""));
                         }
                         if (NextState.Replace("*", "") != states[j])
-                        {
-                            states.Add(NextState.Replace("*", ""));
+                        {states.Add(NextState.Replace("*", ""));
                             break;
                         }
                     }
@@ -118,8 +116,8 @@ namespace ContextFree
             }
 
             final[1] = symbol;
-            List <Tuple< List<string>,string, List< string > ,List < NPDA > ,List<string> ,NPDA[], string[]>> convert = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>,NPDA[], string[]>>();
-            convert.Add(new Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>(nextstate, start, pop, copystates, states, npda,final));
+            List <Tuple< List<string>,string, List< string > ,List < NPDA > ,List<string> ,NPDA[] ,string[]>> convert = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>,NPDA[], string[]>>();
+            convert.Add(new Tuple<List<string>, string, List<string>, List<NPDA>,List<string> ,NPDA[] ,string[]>(nextstate, start, pop, copystates, states, npda, final));
             return convert;
         }
     }
