@@ -15,14 +15,25 @@ namespace ContextFree
         public string Name;
         public string Alphabet;
         public string[][] Pro;
+
         /// <summary>
         /// convert CFG to suitable data structure
         /// </summary>
         /// <returns>List<CFG></returns>
         public static List<CFG> convert()
         {
-            List<CFG> C = new List<CFG>();
-            List<string[]>line = Stream.StreamReadre2();
+            List<CFG> CFG = new List<CFG>();              //example:  (q0$q0)->a(q00q0)(q0$q0)|a(q00q1)(q1$q0)
+                                                          //CFG[0].Name      = "(q0$q0)"     CFG[0].Alphabet  = "a"   
+                                                          //CFG[0].Pro[0][0] = "(q00q0)"     CFG[0].Pro[0][1] = "(q0$q0)"
+                                                          //CFG[0].Pro[1][0] = "(q00q1)"     CFG[0].Pro[1][1] = "(q1$q0)"
+
+                                                          //      alphabet  Pro[0][1]       Pro[1][1]
+                                                          //         |          |               |
+                                                          //(q0$q0)->a(q00q0)(q0$q0)|a(q00q1)(q1$q0)
+                                                          //   |         |               |
+                                                          //  Name   Pro[0][0]       Pro[1][0]
+                                                          
+            List<string[]> line = Stream.StreamReadre2();
             
             string[][]  name = new string[line[0].Length][];    
             for (int j = 0; j < line[0].Length; j++)
@@ -56,9 +67,9 @@ namespace ContextFree
                     Prod[j] = Pro;
                 }
                 CFG Cf = new CFG(Name,Alphabet,Prod);
-                C.Add(Cf);
+                CFG.Add(Cf);
             }
-            return C;
+            return CFG;
         }
     }
 }

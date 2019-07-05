@@ -14,6 +14,18 @@ namespace ContextFree
             List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>> qwe = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>>();
             qwe = NPDA.Convert();
             printt1(qwe[0].Item1, qwe[0].Item2, qwe[0].Item3, qwe[0].Item4, qwe[0].Item5, qwe[0].Item6);
+            //example:
+            //(q0$q0)->a(q00q0)(q0$q0) | a(q00q1)(q1$q0)
+            //(q0$q1)->a(q00q0)(q0$q1) | a(q00q1)(q1$q1)
+            //(q00q0)->a(q00q0)(q00q0) | a(q00q1)(q10q0)
+            //(q00q1)->a(q00q0)(q00q1) | a(q00q1)(q10q1)
+            //(q0$q0)->b(q01q0)(q0$q0) | b(q01q1)(q1$q0)
+            //(q0$q1)->b(q01q0)(q0$q1) | b(q01q1)(q1$q1)
+            //(q01q0)->b(q01q0)(q01q0) | b(q01q1)(q11q0)
+            //(q01q1)->b(q01q0)(q01q1) | b(q01q1)(q11q1)
+            //(q01q0)->a
+            //(q00q0)->b
+            //(q0$q1)->_
         }
         /// <summary>
         /// Convert NPDA to CFG
@@ -56,6 +68,16 @@ namespace ContextFree
                         }
                         j = w;
                     }
+                    //example:
+                    //(q0$q0)->a(q00q0)(q0$q0) | a(q00q1)(q1$q0)
+                    //(q0$q1)->a(q00q0)(q0$q1) | a(q00q1)(q1$q1)
+                    //(q00q0)->a(q00q0)(q00q0) | a(q00q1)(q10q0)
+                    //(q00q1)->a(q00q0)(q00q1) | a(q00q1)(q10q1)
+                    //(q0$q0)->b(q01q0)(q0$q0) | b(q01q1)(q1$q0)
+                    //(q0$q1)->b(q01q0)(q0$q1) | b(q01q1)(q1$q1)
+                    //(q01q0)->b(q01q0)(q01q0) | b(q01q1)(q11q0)
+                    //(q01q1)->b(q01q0)(q01q1) | b(q01q1)(q11q1)
+                    
                     Console.WriteLine();
                     write.WriteLine();
                 }
@@ -76,6 +98,10 @@ namespace ContextFree
                     } 
                 }
             }
+            //example:
+            //(q01q0)->a
+            //(q00q0)->b
+            //(q0$q1)->_
             write.Close();
         }
         /// <summary>
@@ -90,23 +116,23 @@ namespace ContextFree
             string final = qwe[0].Item7[0];
             string symbol = qwe[0].Item7[1].Replace("\r", "");
             string StartVariable = "(" + Start + symbol + final + ")";
-            List<CFG> C = new List<CFG>();
-            C = CFG.convert();
+            List<CFG> cfg = new List<CFG>();
+            cfg = CFG.convert();
             Console.Write("Input:");
             write.Write("Input:");
             string input = Console.ReadLine();
             write.WriteLine(input);
-            string outp = StartVariable;
+            string outp = StartVariable;     //(q0$q1)
             string inp = "";
             int E = 0;
             string alpha = "";
             bool T = false;
             List<CFG> single = new List<CFG>();
-            for (int i = 0; i < C.Count; i++)
+            for (int i = 0; i < cfg.Count; i++)
             {
-                if (C[i].Pro[1] == null)
+                if (cfg[i].Pro[1] == null)
                 {
-                    single.Add(C[i]);
+                    single.Add(cfg[i]);
                 }
             }
 
@@ -114,18 +140,19 @@ namespace ContextFree
             for (int k = 0; k < input.Length; k++)
             {
                 alpha += input[k];
-                for (int i = 0; i < C.Count; i++)
+                for (int i = 0; i < cfg.Count; i++)
                 {
-                    if (StartVariable == C[i].Name && input[k].ToString() == C[i].Alphabet.ToString())
+                    if (StartVariable == cfg[i].Name && input[k].ToString() == cfg[i].Alphabet.ToString())
                     {
-                        for (int j = 0; j < C[i].Pro.Length; j++)
+                        for (int j = 0; j < cfg[i].Pro.Length; j++)
                         {
-                            if (C[i].Pro[j][1] == StartVariable)
+                            if (cfg[i].Pro[j][1] == StartVariable)
                             {
                                 
                                 if (E==0)
                                 {
-                                    outp += "=>" + alpha + C[i].Pro[j][0] + C[i].Pro[j][1];
+                                    outp += "=>" + alpha + cfg[i].Pro[j][0] + cfg[i].Pro[j][1];
+                                    //example: (q0$q1)=>a(q00q0)(q0$q1)
                                     w = i;
                                     if (k + 1 >= input.Length)
                                     {
@@ -139,18 +166,18 @@ namespace ContextFree
                                     if (alpha.Length%2 != 0)
                                     {
                                         w = i;
-                                        outp += "=>" + alpha + C[i].Pro[j][0] + C[i].Pro[j][1];
+                                        outp += "=>" + alpha + cfg[i].Pro[j][0] + cfg[i].Pro[j][1];
                                     }
                                     else
                                     {
                                         for (int l = 0; l < single.Count; l++)
                                         {
-                                            if (C[w].Pro[j][0] == single[l].Name)
+                                            if (cfg[w].Pro[j][0] == single[l].Name)
                                             {
                                                 if(input[k].ToString() == single[l].Alphabet)
                                                 {   
 //                                                    w = i;
-                                                    outp += "=>" + alpha + C[i].Pro[j][1];
+                                                    outp += "=>" + alpha + cfg[i].Pro[j][1];
                                                     if (k + 1 >= input.Length)
                                                     {
                                                         outp += "=>" + alpha;
@@ -162,6 +189,11 @@ namespace ContextFree
                                         }
                                     }
                                 }
+                                //example: 
+                                //1->(q0$q1)=>a(q00q0)(q0$q1)
+                                //2->(q0$q1)=>a(q00q0)(q0$q1)=>ab(q0$q1)
+                                //3->(q0$q1)=>a(q00q0)(q0$q1)=>ab(q0$q1)=>abb(q01q0)(q0$q1)
+                                //4->(q0$q1)=>a(q00q0)(q0$q1)=>ab(q0$q1)=>abb(q01q0)(q0$q1)=>abba(q0$q1)=>abba
                             }
                         }
                     }
