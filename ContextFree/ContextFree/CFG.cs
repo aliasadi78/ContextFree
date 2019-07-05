@@ -15,14 +15,15 @@ namespace ContextFree
         public string Name;
         public string Alphabet;
         public string[][] Pro;
+
         /// <summary>
         /// convert CFG to suitable data structure
         /// </summary>
         /// <returns>List<CFG></returns>
         public static List<CFG> convert()
         {
-            List<CFG> C = new List<CFG>();
-            List<string[]>line = Stream.StreamReadre2();
+            List<CFG> CFG = new List<CFG>();
+            List<string[]> line = Stream.StreamReadre2();
             
             string[][]  name = new string[line[0].Length][];    
             for (int j = 0; j < line[0].Length; j++)
@@ -56,9 +57,9 @@ namespace ContextFree
                     Prod[j] = Pro;
                 }
                 CFG Cf = new CFG(Name,Alphabet,Prod);
-                C.Add(Cf);
+                CFG.Add(Cf);
             }
-            return C;
+            return CFG;
         }
     }
 }

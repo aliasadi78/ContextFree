@@ -11,14 +11,13 @@ namespace ContextFree
     /// </summary>
     public class NPDA
     {
-        public NPDA(string name,string alphabet, string pop, string push, string nextstate,bool finalstate)
+        public NPDA(string name,string alphabet, string pop, string push, string nextstate)
         {
             this.Name = name;
             this.Alpahbet = alphabet;
             this.Pop = pop;
             this.Push = push;
             this.NextState = nextstate;
-            this.FinalState = finalstate;
         }
 
         public string Name;
@@ -26,7 +25,6 @@ namespace ContextFree
         public string Pop;
         public string Push;
         public string NextState;
-        public bool FinalState;
 
         /// <summary>
         /// Function for convert to suitable data structure
@@ -35,20 +33,19 @@ namespace ContextFree
         ///                     (nextstate,    start,      pop,      copystates,      stat,     states)</returns>
         public static List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>> Convert()
         {
-            string[][] States = Stream.StreamReader1();
+            string[][] States = Stream.StreamReader1();    //exmaple: listline[6][0] = "q0" listline[6][1] = "a" listline[6][2] = "1" listline[6][3] = "_" listline[6][4] = "q0"
             NPDA[] npda = new NPDA[States.Length - 4];
-            string symbol = States[3][0].ToString();
-            List<string> final = new List<string>();
-            string start = "";
-            string[] fina = new string[2];
-            List<string> stat = new List<string>();
+            string symbol = States[3][0].ToString();       //example: "$"
+            string start = "";                             //example: "->q0"
+            string[] final = new string[2];                //finalstate & symbol
+            List<string> states = new List<string>();      //q0, q1, ...
             for (int i = 4; i < States.Length; i++)
             {
-               
                 string Name = States[i][0];
+                //remove "->"
                 if (Name[0].ToString() == "-" && Name[1].ToString() == ">")
                 {
-                    start = Name.Replace("->", "");
+                    start = Name.Replace("->", "");    
                 }
                 Name = States[i][0].Replace("->", "");
                 string Alpahbet = States[i][1];
@@ -57,37 +54,34 @@ namespace ContextFree
                 string NextState = States[i][4].Replace("\r", "");
                 if (NextState[0].ToString() == "*")
                 {
-                    fina[0] = NextState.Replace("*", "");
+                    final[0] = NextState.Replace("*", "");
                 }
-                NextState = States[i][4].Replace("\r", "").Replace("*", "");
-                bool FinalState = false;
-                if (Name[0].ToString() == "*")
+                NextState = States[i][4].Replace("*", "");
+                
+                if (states.Count == 0)
                 {
-                    FinalState = true;
-                }
-                if (stat.Count == 0)
-                {
-                    stat.Add(Name.Replace("->", ""));
+                    states.Add(Name.Replace("->", ""));
                 }
                 else
                 {
-                    for (int j = 0; j < stat.Count; j++)
+                    for (int j = 0; j < states.Count; j++)
                     {
-                        if (Name.Replace("->", "") != stat[j])
+                        if (Name.Replace("->", "") != states[j])
                         {
-                            stat.Add(Name.Replace("->", ""));
+                            states.Add(Name.Replace("->", ""));
                         }
-                        if (NextState.Replace("*", "") != stat[j])
+                        if (NextState.Replace("*", "") != states[j])
                         {
-                            stat.Add(NextState.Replace("*", ""));
+                            states.Add(NextState.Replace("*", ""));
                             break;
                         }
                     }
                 }
-                NPDA Npda = new NPDA(Name, Alpahbet, Pop, Push, NextState, FinalState);
-                npda[i - 4] = Npda;
+                NPDA Npda = new NPDA(Name, Alpahbet, Pop, Push, NextState);
+                npda[i - 4] = Npda;                //example: npda[0].Alphabet = "a" npda[0].Name = "q0" npda[0].NextState = "q0" npda[0].Pop = "$" npda[0].Push = "0$"
             }
 
+            //copystates for if npda[i].push != "_"
             List<NPDA> copystates = new List<NPDA>();
             for (int i = 0; i < npda.Length; i++)
             {
@@ -97,16 +91,15 @@ namespace ContextFree
                 }
             }
 
-            List<string> pop = new List<string>();
-            List<string> push = new List<string>();
-            List<string> nextstate = new List<string>();
+            List<string> pop = new List<string>();       //list pop's               example: [$,0,$,1]
+            List<string> push = new List<string>();      //list push's              example: [0$,00,1$,11]
+            List<string> nextstate = new List<string>(); //list nextstate's         example: [q0,q1]
             for (int i = 0; i < npda.Length; i++)
             {
                 if (npda[i].Push != "_")
                 {
                     pop.Add(npda[i].Pop);
                     push.Add(npda[i].Push);
-
                 }
                 if (nextstate.Count == 0)
                 {
@@ -124,9 +117,9 @@ namespace ContextFree
                 }
             }
 
-            fina[1] = symbol;
+            final[1] = symbol;
             List <Tuple< List<string>,string, List< string > ,List < NPDA > ,List<string> ,NPDA[], string[]>> convert = new List<Tuple<List<string>, string, List<string>, List<NPDA>, List<string>,NPDA[], string[]>>();
-            convert.Add(new Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>(nextstate, start, pop, copystates, stat, npda,fina));
+            convert.Add(new Tuple<List<string>, string, List<string>, List<NPDA>, List<string>, NPDA[], string[]>(nextstate, start, pop, copystates, states, npda,final));
             return convert;
         }
     }
